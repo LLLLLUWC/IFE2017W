@@ -3,19 +3,76 @@
   <head>
     <meta charset="utf-8">
     <title>task04</title>
+    <style media="screen">
+      .node {
+        width: auto;
+        height: 40px;
+        margin: 10px 5px 10px;
+        font-size: 15px;
+        color: #fff;
+        background-color: #f00;
+        border: none;
+      }
+      .node:hover {
+        cursor:pointer;
+      }
+    </style>
   </head>
   <body>
     <input type="text" name="" id="num">
     <button type="button" name="button" id="left_in">左侧入</button>
     <button type="button" name="button" id="right_in">右侧入</button>
-    <span>&nbsp&nbsp&nbsp&nbsp</span>
     <button type="button" name="button" id="left_out">左侧出</button>
     <button type="button" name="button" id="right_out">右侧出</button>
-    <ul id="nums">
+    <div id="nums">
 
-    </ul>
+    </div>
     <script type="text/javascript">
-
+      nums = document.getElementById("nums");
+      function createMyNode(){
+        var node=document.createElement("button");
+        var text=document.getElementById("num").value;
+        var textnode=document.createTextNode(text);
+        node.setAttribute("class","node");
+        node.appendChild(textnode);
+        return node;
+      }
+      function rightIn() {
+        var node = createMyNode();
+        if (!node.innerText.length) {
+          return;
+        }
+        nums.appendChild(node);
+      }
+      function leftIn() {
+        var node = createMyNode();
+        if (!node.innerText.length) {
+          return;
+        }
+        nums.insertBefore(node,nums.firstElementChild);
+      }
+      function rightOut() {
+        if (nums.children.length < 1) {
+          return;
+        }
+        nums.removeChild(nums.lastElementChild);
+      }
+      function leftOut() {
+        if (nums.children.length < 1) {
+          return;
+        }
+        nums.removeChild(nums.firstElementChild);
+      }
+      nums.addEventListener("click",function(e){
+        nums.removeChild(e.target);
+      })
+      function init() {
+        document.getElementById("left_in").onclick = leftIn;
+        document.getElementById("right_in").onclick = rightIn;
+        document.getElementById("right_out").onclick = rightOut;
+        document.getElementById("left_out").onclick = leftOut;
+      }
+      init();
     </script>
   </body>
 </html>
