@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>task05</title>
+    <style media="screen">
+      .node {
+        width: 20px;
+        margin: 10px 5px 10px;
+        font-size: 15px;
+        color: #fff;
+        background-color: #f00;
+        border: none;
+        vertical-align: bottom;
+        transition: 1s;
+      }
+      .node:hover {
+        cursor:pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="text" name="" id="num">
+    <button type="button" name="button" id="left_in">左侧入</button>
+    <button type="button" name="button" id="right_in">右侧入</button>
+    <button type="button" name="button" id="left_out">左侧出</button>
+    <button type="button" name="button" id="right_out">右侧出</button>
+    <button type="button" name="button" id="bubble_sort">Bubble Sort</button>
+    <button id="clear">Clear</button>
+    <button id="rd_num">Generate Random Data</button>
+    <div id="nums">
+
+    </div>
+    <div id="sort-part">
+
+    </div>
+    <script type="text/javascript">
+      var data = [];
+      var nums = document.getElementById("nums");
+      var ipt = document.getElementById("num");
+      function createMyNode(){
+        var node=document.createElement("button");
+        node.setAttribute("class","node");
+        node.style.height = ipt.value + "px";
+        ipt.value = "";
+        return node;
+      }
+      var checkLength = function() {
+        if (nums.children.length >= 60) {
+          alert("队列元素数目最大为 60");
+          return false;
+        }
+        return true;
+      }
+      function rightIn() {
+        if (ipt.value > 100 || ipt.value < 10 || !checkLength()) {
+          return;
+        }
+        data.push(ipt.value);
+        var node = createMyNode();
+        nums.appendChild(node);
+      }
+      function leftIn() {
+        if (ipt.value > 100 || ipt.value < 10 || !checkLength()) {
+          return;
+        }
+        data.unshift(ipt.value);
+        var node = createMyNode();
+        nums.insertBefore(node,nums.firstElementChild);
+      }
+      function rightOut() {
+        if (nums.children.length < 1) {
+          return;
+        }
+        data.pop();
+        nums.removeChild(nums.lastElementChild);
+      }
+      function leftOut() {
+        if (nums.children.length < 1) {
+          return;
+        }
+        data.shift();
+        nums.removeChild(nums.firstElementChild);
+      }
+
+      // nums.addEventListener("click",function(e){
+      //   nums.removeChild(e.target);
+      // })
+
+
+      // Clear
+      function clear(){
+        nums.innerHTML = "";
+        data = [];
+      }
+      // Clear
+
+      // Generate Random Data
+      function rdNum(){
+        clear();
+        for (var i = 0; i <= 10; i++) {
+          ipt.value = Math.floor(Math.random()*(101-10))+10;
+          data.push(ipt.value);
+          var node = createMyNode();
+          nums.appendChild(node);
+        }
+      }
+      // Generate Random Data
+
+      // Sort
+      function bubbleSort() {
+        var i = 0;
+        var j = 1;
+        var compare1 = function() {
+          if(i < data.length){
+            var temp = data[0];
+            var change = function(j){
+              nums.children[j].style.height = data[j] + "px";
+            };
+            var compare = function(){
+              console.log("3");
+              if(j < data.length - i){
+                if (Number(data[j-1]) > Number(data[j])) {
+                 temp = data[j];
+                 data[j] = data[j-1];
+                 data[j-1] = temp;
+                 change(j);
+                 change(j-1);
+                }
+                j = j+1;
+                setTimeout(compare,1000);
+              }
+              else {
+               j = 1;
+               i = i + 1;
+               compare1();
+             }
+            }
+            compare();
+          }
+        }
+        compare1();
+      }
+      // Sort
+
+      function init() {
+        document.getElementById("left_in").onclick = leftIn;
+        document.getElementById("right_in").onclick = rightIn;
+        document.getElementById("right_out").onclick = rightOut;
+        document.getElementById("left_out").onclick = leftOut;
+        document.querySelector("#bubble_sort").onclick = bubbleSort;
+        document.querySelector("#clear").onclick = clear;
+        document.querySelector("#rd_num").onclick = rdNum;
+      }
+      init();
+    </script>
+  </body>
+</html>
